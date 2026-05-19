@@ -1,0 +1,867 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<script>
+(() => {
+  const t = localStorage.getItem('deneto-theme');
+  if (t === 'dark' || (!t && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    document.documentElement.classList.add('dark');
+  }
+})();
+</script>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Deneto — Neto · engenheiro, criador, estudante eterno</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0F0E0C;
+    --ink-2:#1C1A17;
+    --ink-3:#2A2620;
+    --paper:#FAF6EE;
+    --paper-2:#F2EBD9;
+    --paper-3:#E8DFC8;
+    --cream:#FFFDF7;
+    --line:#E0D6BD;
+    --line-dark:#2E2A24;
+    --orange:#FF6200;
+    --orange-2:#FF7A2A;
+    --orange-soft:#FFE4D0;
+    --orange-deep:#CC4E00;
+    --mute:#8a7e6a;
+    --mute-2:#6B6155;
+    --ff-display:"Fraunces", Georgia, serif;
+    --ff-body:"Inter", ui-sans-serif, system-ui, sans-serif;
+    --ff-mono:"Geist Mono", ui-monospace, Menlo, monospace;
+    /* always-dark surfaces (don't swap with theme) */
+    --deep:#0F0E0C;
+    --deep-2:#1C1A17;
+    --deep-3:#2A2620;
+    --deep-fg:#FAF6EE;
+    --deep-mute:#8a7e6a;
+  }
+  html.dark{
+    --ink:#F4EFDF;
+    --ink-2:#E8DFC8;
+    --ink-3:#C9BFA6;
+    --paper:#100E0B;
+    --paper-2:#1A1714;
+    --paper-3:#22201C;
+    --cream:#181513;
+    --line:#2C2722;
+    --line-dark:#3E3830;
+    --mute:#9F9485;
+    --mute-2:#BCAF9A;
+    /* slightly raised dark surfaces in dark mode (so sections still pop) */
+    --deep:#1F1B16;
+    --deep-2:#2A251F;
+    --deep-3:#3A332B;
+  }
+  /* smooth theme swap */
+  body, header.top, section, .pillar, .proj, .post, .book, .marq, .hello-pill, .hero-stat, .term, .term-bar, .term-row, .about-photo .badge, .footnote, .contact-form input, .tlogo, .tech-grid, .theme-toggle, .brand-mark, .btn, .btn-ghost, .vis-flow, .vis-flow .n, .vis-flow .ln, .vis-dash .sd, .vis-dash .stat span, .vis-dash .ch{
+    transition: background-color .3s ease, color .3s ease, border-color .3s ease;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--paper);color:var(--ink);font-family:var(--ff-body);-webkit-font-smoothing:antialiased;line-height:1.5}
+  body{overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  img,svg{display:block;max-width:100%}
+  ::selection{background:var(--orange);color:var(--cream)}
+
+  .wrap{max-width:1240px;margin:0 auto;padding:0 32px}
+  .wrap-narrow{max-width:920px;margin:0 auto;padding:0 32px}
+  @media (max-width:768px){.wrap,.wrap-narrow{padding:0 20px}}
+
+  /* ============ NAV ============ */
+  header.top{position:sticky;top:0;z-index:100;background:var(--paper);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+  .top-in{display:flex;align-items:center;justify-content:space-between;padding:18px 0;gap:24px}
+  .brand{display:flex;align-items:center;gap:10px;font-family:var(--ff-display);font-weight:500;font-size:22px;letter-spacing:-.02em}
+  .brand-mark{width:34px;height:34px;border-radius:7px;background:var(--deep);display:grid;place-items:center;color:var(--orange);font-family:var(--ff-display);font-style:italic;font-weight:500;font-size:16px;letter-spacing:-.05em}
+  .brand-mark span{transform:translateY(-1px)}
+  nav.menu{display:flex;align-items:center;gap:32px}
+  nav.menu a{font-size:14px;color:var(--ink-2);font-weight:500;transition:color .2s;position:relative}
+  nav.menu a:hover{color:var(--orange)}
+  nav.menu a.active{color:var(--orange)}
+  .top-cta{display:flex;align-items:center;gap:14px}
+  .top-cta .live{display:inline-flex;align-items:center;gap:6px;font-family:var(--ff-mono);font-size:10.5px;color:var(--mute-2);letter-spacing:.08em;text-transform:uppercase}
+  .top-cta .live .p{width:7px;height:7px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 3px rgba(255,98,0,.18);animation:pulse 1.8s infinite}
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.55;transform:scale(.9)}}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;background:var(--orange);color:var(--cream);font-size:14px;font-weight:500;border-radius:999px;transition:transform .2s,background .2s,box-shadow .2s;border:0;cursor:pointer;font-family:var(--ff-body)}
+  .btn:hover{background:var(--orange-deep);transform:translateY(-1px);box-shadow:0 4px 16px rgba(255,98,0,.3)}
+  .btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+  .btn-ghost:hover{background:var(--ink);color:var(--paper)}
+  .theme-toggle{width:38px;height:38px;border-radius:50%;background:var(--cream);border:1px solid var(--line);display:grid;place-items:center;cursor:pointer;color:var(--ink);transition:background .25s,transform .35s,color .25s,border-color .25s;flex-shrink:0}
+  .theme-toggle:hover{background:var(--orange);color:var(--cream);border-color:var(--orange);transform:rotate(-18deg)}
+  .theme-toggle svg{width:17px;height:17px}
+  .theme-toggle .moon{display:none}
+  html.dark .theme-toggle .sun{display:none}
+  html.dark .theme-toggle .moon{display:block}
+  @media (max-width:880px){.theme-toggle{width:34px;height:34px}.theme-toggle svg{width:15px;height:15px}}
+  @media (max-width:880px){nav.menu{display:none}.top-cta .live{display:none}}
+
+  /* ============ HERO ============ */
+  .hero{padding:48px 0 80px;position:relative;overflow:hidden}
+  .hello-pill{display:inline-flex;align-items:center;gap:8px;padding:7px 16px;background:var(--cream);border:1px solid var(--line);border-radius:999px;font-family:var(--ff-mono);font-size:12px;color:var(--ink-2);letter-spacing:.04em;margin:0 auto 24px;font-weight:500}
+  .hello-pill .wave{display:inline-block;animation:wave 2.4s infinite}
+  @keyframes wave{0%,60%,100%{transform:rotate(0)}10%,30%{transform:rotate(14deg)}20%{transform:rotate(-8deg)}}
+  .hero-center{text-align:center;position:relative;z-index:2}
+  .hero h1{font-family:var(--ff-display);font-size:clamp(56px,8vw,108px);font-weight:400;line-height:.95;letter-spacing:-.035em;color:var(--ink);font-variation-settings:"opsz" 144}
+  .hero h1 em{font-style:italic;color:var(--orange);font-weight:400}
+  .hero h1 .l{display:inline-block;opacity:0;transform:translateY(20px);animation:up .6s cubic-bezier(.2,.7,.1,1) forwards}
+  @keyframes up{to{opacity:1;transform:none}}
+
+  /* photo + blob */
+  .hero-photo-wrap{position:relative;width:100%;max-width:520px;margin:48px auto 0;aspect-ratio:1/1.05}
+  .hero-blob{position:absolute;inset:auto 0 0 0;width:88%;height:78%;margin:0 auto;background:var(--orange);border-radius:50% 50% 28% 28% / 50% 50% 22% 22%;z-index:1}
+  .hero-blob::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 60%,rgba(0,0,0,.18));border-radius:inherit}
+  .hero-photo{position:absolute;left:0;right:0;bottom:0;width:100%;height:100%;z-index:2;display:flex;align-items:flex-end;justify-content:center}
+  .hero-photo img{width:auto;max-width:100%;max-height:100%;object-fit:contain;object-position:bottom;filter:drop-shadow(0 14px 30px rgba(0,0,0,.18))}
+  /* hand-drawn marks */
+  .mk{position:absolute;color:var(--orange);font-family:var(--ff-display);font-style:italic;font-weight:500;pointer-events:none;z-index:3}
+  .mk.q1{top:-12px;right:-10px;font-size:42px;transform:rotate(-10deg)}
+  .mk.q2{bottom:120px;left:-18px;font-size:34px;transform:rotate(8deg)}
+  .mk.s1{top:38%;right:-30px;font-size:26px;transform:rotate(20deg)}
+
+  .hero-cta-row{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:36px;flex-wrap:wrap}
+  .hero-stat{display:flex;align-items:center;gap:10px;padding:10px 18px;background:var(--cream);border:1px solid var(--line);border-radius:999px;font-size:13px;color:var(--ink-2)}
+  .hero-stat strong{font-family:var(--ff-display);font-size:22px;font-weight:500;color:var(--orange);font-variation-settings:"opsz" 24;line-height:1}
+  .hero-stat em{font-style:italic;color:var(--mute-2);font-family:var(--ff-display)}
+
+  .hero-sub{font-family:var(--ff-display);font-size:22px;line-height:1.4;color:var(--mute-2);max-width:32ch;margin:32px auto 0;font-weight:400;font-variation-settings:"opsz" 24}
+  .hero-sub em{font-style:italic;color:var(--orange)}
+
+  @media (max-width:760px){.hero{padding:32px 0 60px}.mk.q2{left:-8px}.mk.s1{right:-10px;font-size:20px}}
+
+  /* ============ MARQUEE ============ */
+  .marq{padding:24px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;background:var(--paper-2)}
+  .mq{display:flex;gap:48px;width:max-content;animation:mv 38s linear infinite;align-items:center;font-family:var(--ff-display);font-size:34px;font-weight:400;letter-spacing:-.02em;color:var(--ink);white-space:nowrap;font-variation-settings:"opsz" 144}
+  @keyframes mv{to{transform:translateX(-50%)}}
+  .mq em{font-style:italic;color:var(--orange)}
+  .mq .sp{font-family:var(--ff-mono);font-size:18px;color:var(--orange);transform:translateY(-3px)}
+
+  /* ============ SECTION HEAD ============ */
+  section{padding:120px 0;border-bottom:1px solid var(--line);position:relative}
+  .head-row{display:grid;grid-template-columns:auto 1fr;gap:60px;align-items:end;margin-bottom:64px}
+  .sec-num{font-family:var(--ff-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);font-weight:500;display:flex;align-items:center;gap:12px;margin-bottom:14px}
+  .sec-num::before{content:"";width:24px;height:1px;background:var(--orange)}
+  .sec-h{font-family:var(--ff-display);font-size:clamp(40px,5.5vw,72px);font-weight:400;line-height:1;letter-spacing:-.028em;color:var(--ink);font-variation-settings:"opsz" 96}
+  .sec-h em{font-style:italic;color:var(--orange);font-weight:400}
+  .sec-lead{font-family:var(--ff-display);font-size:19px;line-height:1.45;color:var(--mute-2);max-width:46ch;font-weight:400;font-variation-settings:"opsz" 24}
+  .sec-lead em{font-style:italic;color:var(--orange)}
+  @media (max-width:880px){.head-row{grid-template-columns:1fr;gap:24px;align-items:start;margin-bottom:48px}}
+
+  /* ============ O QUE FAÇO (3 cards) ============ */
+  .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .pillar{background:var(--cream);border:1px solid var(--line);border-radius:14px;padding:32px;display:flex;flex-direction:column;gap:18px;transition:transform .25s,border-color .25s,box-shadow .25s;cursor:pointer;position:relative;overflow:hidden}
+  .pillar::before{content:"";position:absolute;left:0;top:0;width:0;height:3px;background:var(--orange);transition:width .35s}
+  .pillar:hover{transform:translateY(-4px);border-color:var(--orange);box-shadow:0 18px 40px rgba(255,98,0,.08)}
+  .pillar:hover::before{width:100%}
+  .pi{width:48px;height:48px;border-radius:10px;background:var(--orange-soft);display:grid;place-items:center;color:var(--orange);font-family:var(--ff-mono);font-size:11px;font-weight:500;letter-spacing:.05em}
+  .pillar h3{font-family:var(--ff-display);font-size:26px;font-weight:500;letter-spacing:-.02em;line-height:1.1;font-variation-settings:"opsz" 36}
+  .pillar h3 em{font-style:italic;color:var(--orange);font-weight:400}
+  .pillar p{font-size:14.5px;line-height:1.6;color:var(--mute-2)}
+  .pillar p em{font-style:italic;color:var(--ink-2);font-family:var(--ff-display);font-weight:500;font-variation-settings:"opsz" 14}
+  .pillar .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:14px;border-top:1px dashed var(--line)}
+  .pillar .tags span{font-family:var(--ff-mono);font-size:10px;letter-spacing:.06em;color:var(--mute);padding:4px 8px;background:var(--paper-2);border-radius:4px;text-transform:uppercase}
+  @media (max-width:880px){.pillars{grid-template-columns:1fr}}
+
+  /* ============ ABOUT (foto escrevendo + texto) ============ */
+  .about-sec{background:var(--paper-2)}
+  .about{display:grid;grid-template-columns:1fr 1.1fr;gap:80px;align-items:center}
+  .about-photo{position:relative;aspect-ratio:1/1;border-radius:14px;overflow:hidden;background:var(--ink)}
+  .about-photo img{width:100%;height:100%;object-fit:cover;object-position:center}
+  .about-photo .badge{position:absolute;bottom:18px;left:18px;background:var(--cream);border-radius:999px;padding:8px 14px;font-family:var(--ff-mono);font-size:11px;color:var(--ink);letter-spacing:.06em;display:flex;align-items:center;gap:8px}
+  .about-photo .badge .p{width:7px;height:7px;border-radius:50%;background:var(--orange);animation:pulse 2s infinite}
+  .about-body h2{font-family:var(--ff-display);font-size:clamp(36px,4.6vw,60px);font-weight:400;line-height:1.05;letter-spacing:-.025em;font-variation-settings:"opsz" 96}
+  .about-body h2 em{font-style:italic;color:var(--orange)}
+  .about-body p{font-size:17px;line-height:1.7;color:var(--ink-2);margin-top:24px;max-width:50ch}
+  .about-body p em{font-style:italic;color:var(--orange);font-family:var(--ff-display);font-variation-settings:"opsz" 14;font-weight:500}
+  .about-body .stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;margin-top:36px;padding-top:32px;border-top:1px solid var(--line)}
+  .about-body .stat .n{font-family:var(--ff-display);font-size:42px;font-weight:500;letter-spacing:-.02em;color:var(--orange);font-variation-settings:"opsz" 96;line-height:1}
+  .about-body .stat .l{font-family:var(--ff-mono);font-size:11px;color:var(--mute-2);letter-spacing:.08em;text-transform:uppercase;margin-top:6px}
+  @media (max-width:880px){.about{grid-template-columns:1fr;gap:40px}}
+
+  /* ============ TECH LOGOS ============ */
+  .tech-sec{padding:80px 0;background:var(--deep);color:var(--deep-fg);border-bottom:0}
+  .tech-eyerow{font-family:var(--ff-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);text-align:center;margin-bottom:14px;font-weight:500}
+  .tech-h{font-family:var(--ff-display);text-align:center;font-size:clamp(28px,3.4vw,44px);font-weight:400;letter-spacing:-.02em;line-height:1.1;font-variation-settings:"opsz" 96}
+  .tech-h em{font-style:italic;color:var(--orange)}
+  .tech-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:0;margin-top:50px;border:1px solid var(--deep-3);border-radius:14px;overflow:hidden}
+  .tlogo{aspect-ratio:1/1;display:grid;place-items:center;border-right:1px solid var(--deep-3);border-bottom:1px solid var(--deep-3);font-family:var(--ff-display);font-weight:500;font-size:18px;color:#888080;transition:background .25s,color .25s;cursor:default;position:relative}
+  .tlogo:hover{background:var(--orange);color:var(--paper)}
+  .tlogo:nth-child(8n){border-right:0}
+  .tlogo:nth-last-child(-n+8){border-bottom:0}
+  .tlogo .sub{position:absolute;bottom:6px;left:0;right:0;text-align:center;font-family:var(--ff-mono);font-size:9px;color:var(--mute);letter-spacing:.06em;text-transform:uppercase;opacity:0;transition:opacity .2s}
+  .tlogo:hover .sub{opacity:1;color:rgba(250,246,238,.7)}
+  .tlogo svg{width:34px;height:34px}
+  @media (max-width:880px){.tech-grid{grid-template-columns:repeat(4,1fr)}.tlogo:nth-child(8n){border-right:1px solid var(--deep-3)}.tlogo:nth-child(4n){border-right:0}.tlogo:nth-last-child(-n+8){border-bottom:1px solid var(--deep-3)}.tlogo:nth-last-child(-n+4){border-bottom:0}}
+
+  /* ============ NOW (terminal style v2) ============ */
+  .now-sec{background:var(--paper)}
+  .term{background:var(--deep);border:1px solid var(--deep);border-radius:12px;overflow:hidden;font-family:var(--ff-mono);font-size:14px;color:#d4cebf;box-shadow:0 12px 40px rgba(0,0,0,.14)}
+  .term-bar{padding:14px 22px;background:var(--deep-2);border-bottom:1px solid var(--deep-3);display:flex;align-items:center;gap:10px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#a39d8f}
+  .term-bar .dots{display:flex;gap:6px;margin-right:10px}
+  .term-bar .dots span{width:10px;height:10px;border-radius:50%;background:#3a342a}
+  .term-bar .dots span:nth-child(1){background:#FF6200}
+  .term-bar .dots span:nth-child(2){background:#3a342a}
+  .term-bar .dots span:nth-child(3){background:#3a342a}
+  .term-bar .lt{display:inline-flex;align-items:center;gap:7px}
+  .term-bar .lt .p{width:7px;height:7px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 3px rgba(255,98,0,.2);animation:pulse 1.8s infinite}
+  .term-bar .clock{margin-left:auto;color:#d4cebf}
+  .term-row{display:grid;grid-template-columns:100px 1fr auto;gap:22px;padding:20px 22px;border-bottom:1px solid var(--deep-3);align-items:center}
+  .term-row:last-child{border-bottom:0}
+  .term-row .lbl{color:var(--mute);font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+  .term-row .lbl::before{content:"$ ";color:var(--orange)}
+  .term-row .v{font-family:var(--ff-display);font-size:20px;color:var(--paper);font-weight:400;font-variation-settings:"opsz" 24;line-height:1.25}
+  .term-row .v em{font-style:italic;color:var(--orange)}
+  .term-row .v .sub{display:block;font-family:var(--ff-mono);font-size:11.5px;color:var(--mute);margin-top:4px;font-style:normal;text-transform:none;letter-spacing:0}
+  .term-row .meta{font-family:var(--ff-mono);font-size:10.5px;color:var(--mute);letter-spacing:.06em;text-transform:uppercase;text-align:right;line-height:1.5}
+  .term-row .meta strong{display:block;color:var(--orange);font-weight:500}
+  @media (max-width:760px){.term-row{grid-template-columns:90px 1fr;gap:14px}.term-row .meta{grid-column:2;text-align:left}}
+
+  /* ============ PROJETOS ============ */
+  .proj-sec{background:var(--paper-2)}
+  .proj-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
+  .proj{background:var(--cream);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:transform .25s,border-color .25s;cursor:pointer;position:relative}
+  .proj:hover{transform:translateY(-4px);border-color:var(--orange)}
+  .proj.feat{grid-column:span 8}
+  .proj.s{grid-column:span 4}
+  .proj.m{grid-column:span 6}
+  .proj-vis{aspect-ratio:16/10;background:var(--ink);position:relative;overflow:hidden;display:grid;place-items:center}
+  .proj.s .proj-vis{aspect-ratio:4/3}
+  .proj-vis::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(255,98,0,.25),transparent 60%);z-index:1}
+  .proj-tag{position:absolute;top:14px;left:14px;font-family:var(--ff-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--cream);background:rgba(0,0,0,.65);padding:5px 10px;border-radius:4px;z-index:3;display:inline-flex;align-items:center;gap:6px}
+  .proj-tag .p{width:6px;height:6px;border-radius:50%;background:var(--orange);animation:pulse 2s infinite}
+  .proj-tag.done .p{background:#a39d8f;animation:none}
+  .proj-body{padding:22px;display:flex;flex-direction:column;gap:10px}
+  .proj-meta{display:flex;justify-content:space-between;font-family:var(--ff-mono);font-size:10.5px;color:var(--mute-2);letter-spacing:.08em;text-transform:uppercase}
+  .proj-meta .o{color:var(--orange)}
+  .proj-body h3{font-family:var(--ff-display);font-size:24px;font-weight:500;letter-spacing:-.018em;line-height:1.15;color:var(--ink);font-variation-settings:"opsz" 36}
+  .proj-body h3 em{font-style:italic;color:var(--orange);font-weight:400}
+  .proj-body p{font-size:14px;color:var(--mute-2);line-height:1.5}
+  .proj-foot{margin-top:auto;display:flex;justify-content:space-between;align-items:center;padding-top:14px;border-top:1px solid var(--line);font-family:var(--ff-mono);font-size:11px;letter-spacing:.06em;color:var(--mute-2);text-transform:uppercase}
+  .proj-foot .arr{color:var(--orange);transition:transform .2s}
+  .proj:hover .proj-foot .arr{transform:translateX(4px)}
+
+  /* project visuals */
+  .vis-wa{width:100%;height:100%;background:linear-gradient(135deg,#1ea25b,#168a4b);display:grid;place-items:center;position:relative;z-index:2}
+  .vis-wa::after{content:"Wa";font-family:var(--ff-display);font-size:64px;font-style:italic;color:#fff;font-weight:500}
+  .vis-flow{padding:24px;display:flex;flex-direction:column;gap:8px;background:var(--deep);width:100%;height:100%;position:relative;z-index:2}
+  .vis-flow .n{padding:8px 12px;background:var(--deep-2);border:1px solid var(--deep-3);border-radius:4px;font-family:var(--ff-mono);font-size:10px;letter-spacing:.06em;display:flex;align-items:center;gap:8px;color:#a39d8f;text-transform:uppercase}
+  .vis-flow .n.o{border-color:var(--orange);color:var(--orange);background:rgba(255,98,0,.08)}
+  .vis-flow .n .ic{width:14px;height:14px;border-radius:2px;background:var(--deep-3);display:grid;place-items:center;font-size:8px;color:#a39d8f}
+  .vis-flow .n.o .ic{background:var(--orange);color:#fff}
+  .vis-flow .ln{height:8px;width:1px;background:var(--deep-3);margin-left:11px}
+  .vis-dash{padding:18px;display:grid;grid-template-columns:1fr 2fr;gap:10px;background:#15130f;width:100%;height:100%;position:relative;z-index:2}
+  .vis-dash .sd{background:var(--deep-2);border-radius:6px;padding:8px;display:flex;flex-direction:column;gap:5px}
+  .vis-dash .it{font-family:var(--ff-mono);font-size:9px;color:#a39d8f;padding:5px 7px;border-radius:3px;letter-spacing:.04em}
+  .vis-dash .it.a{background:rgba(255,98,0,.15);color:var(--orange)}
+  .vis-dash .mn{display:flex;flex-direction:column;gap:8px}
+  .vis-dash .stat{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
+  .vis-dash .stat span{background:var(--deep-2);border-radius:4px;padding:8px;text-align:center;font-family:var(--ff-display);font-size:16px;font-weight:500;color:var(--paper)}
+  .vis-dash .stat span:nth-child(2){color:var(--orange)}
+  .vis-dash .ch{flex:1;background:var(--deep-2);border-radius:4px;padding:8px;position:relative}
+  .vis-dash .ch svg{width:100%;height:100%}
+  .vis-yt{background:#000;width:100%;height:100%;display:grid;place-items:center;position:relative;z-index:2;overflow:hidden}
+  .vis-yt::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 30% 50%,rgba(255,98,0,.45),transparent 60%)}
+  .vis-yt .txt{font-family:var(--ff-display);font-size:48px;font-weight:400;font-style:italic;color:#fff;position:relative;z-index:1}
+  .vis-yt .pl{position:absolute;width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,.95);display:grid;place-items:center;color:#000;font-size:20px;z-index:2;right:24px;bottom:24px}
+  .vis-card{padding:24px;background:linear-gradient(135deg,#FF7A2A,#CC4E00);width:100%;height:100%;display:flex;align-items:flex-end;position:relative;z-index:2}
+  .vis-card::after{content:"";position:absolute;top:-30%;right:-20%;width:80%;height:80%;background:radial-gradient(circle,rgba(255,255,255,.18),transparent 70%);border-radius:50%}
+  .vis-card .ph{font-family:var(--ff-display);font-style:italic;font-size:42px;color:#fff;line-height:1;font-weight:500}
+  .vis-blog{padding:22px;background:repeating-linear-gradient(180deg,transparent 0,transparent 22px,#2a261f 22px,#2a261f 23px);background-color:var(--ink);font-family:var(--ff-mono);font-size:11px;color:#a39d8f;line-height:23px;letter-spacing:0;width:100%;height:100%;position:relative;z-index:2}
+
+  @media (max-width:1024px){.proj-grid{grid-template-columns:repeat(6,1fr)}.proj.feat,.proj.m{grid-column:span 6}.proj.s{grid-column:span 3}}
+  @media (max-width:680px){.proj-grid{grid-template-columns:1fr}.proj.feat,.proj.s,.proj.m{grid-column:span 1}}
+
+  /* ============ ESTANTE ============ */
+  .shelf-sec{background:var(--paper)}
+  .shelf{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+  .book{display:grid;grid-template-columns:78px 1.4fr 1fr 110px 110px;gap:24px;padding:24px 0;border-bottom:1px solid var(--line);align-items:center;transition:background .25s,padding .25s;cursor:pointer}
+  .book:hover{background:var(--cream);padding:24px 16px}
+  .book .cover{width:62px;height:86px;border-radius:3px;display:grid;place-items:center;color:#fff;font-family:var(--ff-display);font-size:10px;text-align:center;padding:8px;line-height:1.1;font-style:italic;font-weight:500;box-shadow:1px 2px 6px rgba(0,0,0,.1)}
+  .book .cover.c1{background:linear-gradient(135deg,#5C2E1A,#8B4513)}
+  .book .cover.c2{background:linear-gradient(135deg,#1F1B16,#2d2520)}
+  .book .cover.c3{background:linear-gradient(135deg,#FF7A2A,#CC4E00)}
+  .book .cover.c4{background:linear-gradient(135deg,#D4B886,#A0855E)}
+  .book .cover.c5{background:linear-gradient(135deg,#2d4a3e,#1a2e26)}
+  .book .ttl{font-family:var(--ff-display);font-size:22px;font-weight:500;letter-spacing:-.018em;line-height:1.2;color:var(--ink);font-variation-settings:"opsz" 36}
+  .book .ttl em{font-style:italic;color:var(--orange);font-weight:400}
+  .book .ttl .au{display:block;font-size:12px;color:var(--mute-2);font-style:italic;margin-top:3px;font-weight:400;font-family:var(--ff-display)}
+  .book .note{font-size:14px;color:var(--mute-2);line-height:1.5;font-style:italic;font-family:var(--ff-display);font-variation-settings:"opsz" 14;font-weight:400}
+  .book .st{font-family:var(--ff-mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute-2)}
+  .book .st .o{color:var(--orange)}
+  .book .prog{height:5px;background:var(--paper-2);border-radius:3px;overflow:hidden}
+  .book .prog .b{height:100%;background:var(--orange);transition:width .6s}
+  @media (max-width:880px){.book{grid-template-columns:60px 1fr;gap:16px}.book .note,.book .st,.book .prog{display:none}}
+
+  /* ============ BLOG ============ */
+  .blog-sec{background:var(--paper-2)}
+  .blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .post{background:var(--cream);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:transform .25s,border-color .25s;cursor:pointer}
+  .post:hover{transform:translateY(-4px);border-color:var(--orange)}
+  .post-vis{aspect-ratio:16/10;background:var(--paper-3);position:relative;overflow:hidden;display:grid;place-items:center}
+  .post-vis.p1{background:linear-gradient(135deg,#FF7A2A,#CC4E00)}
+  .post-vis.p1::after{content:"</>";font-family:var(--ff-mono);font-size:64px;color:rgba(255,255,255,.4);font-weight:500}
+  .post-vis.p2{background:linear-gradient(135deg,#1F1B16,#3a342a)}
+  .post-vis.p2::after{content:"{ }";font-family:var(--ff-mono);font-size:60px;color:var(--orange);font-weight:500}
+  .post-vis.p3{background:linear-gradient(135deg,#FAF6EE,#E8DFC8)}
+  .post-vis.p3::after{content:"#";font-family:var(--ff-display);font-style:italic;font-size:88px;color:var(--orange);font-weight:500}
+  .post-body{padding:22px;display:flex;flex-direction:column;gap:10px;flex:1}
+  .post-meta{display:flex;justify-content:space-between;font-family:var(--ff-mono);font-size:10.5px;color:var(--mute-2);letter-spacing:.08em;text-transform:uppercase}
+  .post-meta .tag{color:var(--orange)}
+  .post-body h4{font-family:var(--ff-display);font-size:20px;font-weight:500;letter-spacing:-.018em;line-height:1.25;font-variation-settings:"opsz" 36}
+  .post-body h4 em{font-style:italic;color:var(--orange);font-weight:400}
+  .post-body p{font-size:13.5px;color:var(--mute-2);line-height:1.55}
+  .post-foot{margin-top:auto;padding-top:14px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;font-family:var(--ff-mono);font-size:11px;color:var(--mute-2);letter-spacing:.06em;text-transform:uppercase}
+  .post-foot .arr{color:var(--orange);transition:transform .2s}
+  .post:hover .post-foot .arr{transform:translateX(4px)}
+  @media (max-width:880px){.blog-grid{grid-template-columns:1fr}}
+
+  /* ============ CONTATO / FOOTER ============ */
+  .contact{background:var(--deep);color:var(--deep-fg);padding:140px 0 80px;position:relative;overflow:hidden;border-bottom:0}
+  .contact::before{content:"deneto.";position:absolute;left:-2%;bottom:-30px;font-family:var(--ff-display);font-size:clamp(180px,28vw,460px);font-weight:400;color:transparent;-webkit-text-stroke:1px rgba(250,246,238,.07);letter-spacing:-.06em;line-height:.8;font-style:italic;font-variation-settings:"opsz" 144;pointer-events:none;white-space:nowrap}
+  .contact-grid{position:relative;z-index:1;display:grid;grid-template-columns:1.4fr 1fr;gap:80px;align-items:end}
+  .contact-eyerow{font-family:var(--ff-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);margin-bottom:24px;display:flex;align-items:center;gap:12px;font-weight:500}
+  .contact-eyerow::before{content:"";width:32px;height:1px;background:var(--orange)}
+  .contact h2{font-family:var(--ff-display);font-size:clamp(48px,7vw,108px);font-weight:400;line-height:.95;letter-spacing:-.035em;color:var(--paper);font-variation-settings:"opsz" 144}
+  .contact h2 em{font-style:italic;color:var(--orange);font-weight:400}
+  .contact-sub{font-family:var(--ff-display);font-size:20px;line-height:1.5;color:#bdb6a8;margin-top:28px;max-width:38ch;font-variation-settings:"opsz" 24;font-weight:400}
+  .contact-sub em{font-style:italic;color:var(--orange)}
+  .contact-side{display:flex;flex-direction:column;gap:0}
+  .contact-side strong{display:block;font-family:var(--ff-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px;color:var(--paper);font-weight:500}
+  .contact-side a{color:var(--deep-fg);transition:color .2s,padding-left .2s;padding:12px 0;border-bottom:1px solid var(--deep-3);font-family:var(--ff-mono);font-size:13px;display:flex;justify-content:space-between;align-items:center;letter-spacing:.02em}
+  .contact-side a:hover{color:var(--orange);padding-left:8px}
+  .contact-side a .arr{color:var(--orange);font-family:var(--ff-mono);font-size:11px}
+  .contact-side a:last-child{border-bottom:0}
+
+  .contact-form{margin-top:60px;position:relative;z-index:1;padding-top:40px;border-top:1px solid var(--deep-3);display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+  .contact-form input{flex:1;min-width:240px;background:transparent;border:0;border-bottom:1px solid var(--deep-3);padding:14px 0;font-family:var(--ff-mono);font-size:14px;color:var(--deep-fg);outline:0}
+  .contact-form input:focus{border-color:var(--orange)}
+  .contact-form input::placeholder{color:var(--mute)}
+  .contact-form button{padding:14px 26px;background:var(--orange);color:var(--cream);border:0;font-family:var(--ff-body);font-weight:500;font-size:14px;border-radius:999px;cursor:pointer;transition:background .2s,transform .2s}
+  .contact-form button:hover{background:var(--orange-deep);transform:translateY(-1px)}
+
+  .footnote{position:relative;z-index:1;margin-top:70px;padding-top:24px;border-top:1px solid var(--deep-3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;font-family:var(--ff-mono);font-size:11px;color:var(--mute);letter-spacing:.04em}
+  .footnote a{color:#bdb6a8;transition:color .2s}
+  .footnote a:hover{color:var(--orange)}
+  @media (max-width:880px){.contact-grid{grid-template-columns:1fr;gap:40px}}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(20px);transition:opacity .9s cubic-bezier(.2,.7,.1,1),transform .9s cubic-bezier(.2,.7,.1,1)}
+  .reveal.in{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<template id="__bundler_thumbnail" data-bg-color="#FAF6EE">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#FAF6EE"/>
+    <text x="600" y="460" font-family="Georgia, serif" font-style="italic" font-size="360" font-weight="500" text-anchor="middle" fill="#0F0E0C">D<tspan fill="#FF6200">n</tspan>.</text>
+  </svg>
+</template>
+
+
+<!-- NAV -->
+<header class="top">
+  <div class="wrap top-in">
+    <a href="#top" class="brand">
+      <span class="brand-mark"><span>Dn</span></span>
+      <span>deneto</span>
+    </a>
+    <nav class="menu">
+      <a href="#sobre">Sobre</a>
+      <a href="#faco">O que faço</a>
+      <a href="#projetos">Projetos</a>
+      <a href="#estante">Estante</a>
+      <a href="#blog">Blog</a>
+    </nav>
+    <div class="top-cta">
+      <span class="live"><span class="p"></span>disponível</span>
+      <button class="theme-toggle" aria-label="Alternar modo claro / escuro" title="Alternar tema">
+        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <a href="#contato" class="btn">Fale Comigo</a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="top" data-screen-label="01 Hero" style="border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="hero-center">
+      <div style="text-align:center"><span class="hello-pill"><span class="wave">👋</span> Hello! Sou o Neto</span></div>
+
+      <h1>
+        <span class="l" style="animation-delay:.05s">Construo</span>
+        <span class="l" style="animation-delay:.15s"><em>coisas.</em></span><br>
+        <span class="l" style="animation-delay:.30s">Documento</span>
+        <span class="l" style="animation-delay:.40s">o</span>
+        <span class="l" style="animation-delay:.50s"><em>processo.</em></span>
+      </h1>
+
+      <p class="hero-sub">Engenheiro de automação. <em>Documento</em> o que construo — porque aprender em público é a melhor forma que conheço de aprender.</p>
+
+      <div class="hero-photo-wrap">
+        <div class="hero-blob"></div>
+        <div class="hero-photo">
+          <img src="assets/photos/neto-hero.jpg" alt="Neto" />
+        </div>
+        <span class="mk q1">★</span>
+        <span class="mk q2">~</span>
+        <span class="mk s1">olá!</span>
+      </div>
+
+      <div class="hero-cta-row">
+        <a href="#projetos" class="btn">Ver projetos →</a>
+        <a href="#contato" class="btn btn-ghost">Vamos conversar</a>
+      </div>
+
+      <div class="hero-cta-row" style="margin-top:18px">
+        <span class="hero-stat"><strong>120+</strong> projetos<em>·</em>entregues</span>
+        <span class="hero-stat"><strong>12</strong> anos<em>·</em>codando</span>
+        <span class="hero-stat"><strong>4.9</strong>★<em>·</em>avaliação média</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marq" aria-hidden="true">
+  <div class="mq">
+    <span>construir <em>antes</em> de documentar</span><span class="sp">✦</span>
+    <span>aprender <em>em público</em></span><span class="sp">✦</span>
+    <span>código que vira <em>artesanato</em></span><span class="sp">✦</span>
+    <span>caderno <em>aberto</em></span><span class="sp">✦</span>
+    <span>construir <em>antes</em> de documentar</span><span class="sp">✦</span>
+    <span>aprender <em>em público</em></span><span class="sp">✦</span>
+    <span>código que vira <em>artesanato</em></span><span class="sp">✦</span>
+    <span>caderno <em>aberto</em></span><span class="sp">✦</span>
+  </div>
+</div>
+
+<!-- O QUE FAÇO -->
+<section id="faco" data-screen-label="02 O que faço">
+  <div class="wrap">
+    <div class="head-row reveal">
+      <div>
+        <div class="sec-num">[ 01 ] o que faço</div>
+        <h2 class="sec-h">três coisas — todos os <em>dias</em>.</h2>
+      </div>
+      <p class="sec-lead">Não tenho stack predileta nem ideologia de framework. Tenho um jeito de trabalhar: <em>entender</em> o problema, construir o menor sistema possível, e documentar pra alguém aprender junto.</p>
+    </div>
+
+    <div class="pillars reveal">
+      <div class="pillar">
+        <div class="pi">P.01</div>
+        <h3>Construo <em>sistemas</em></h3>
+        <p>Automações que rodam 24/7 sem precisar de mim. Fluxos N8N, agentes IA, integrações reais — onde antes tinha <em>copia-e-cola humano.</em></p>
+        <div class="tags"><span>n8n</span><span>RAG</span><span>postgres</span><span>whatsapp api</span></div>
+      </div>
+      <div class="pillar">
+        <div class="pi">P.02</div>
+        <h3>Documento o <em>processo</em></h3>
+        <p>Cada projeto vira vídeo, post, ou caderno aberto. Não tutorial pronto — o <em>processo de verdade</em>, com os becos sem saída.</p>
+        <div class="tags"><span>youtube</span><span>blog</span><span>cases</span><span>open notes</span></div>
+      </div>
+      <div class="pillar">
+        <div class="pi">P.03</div>
+        <h3>Estudo <em>todo dia</em></h3>
+        <p>Leio devagar, anoto à margem. O que dura é o que volto a usar amanhã. O resto é <em>consequência.</em></p>
+        <div class="tags"><span>papers</span><span>livros</span><span>side projects</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOBRE -->
+<section class="about-sec" id="sobre" data-screen-label="03 Sobre">
+  <div class="wrap">
+    <div class="head-row reveal">
+      <div>
+        <div class="sec-num">[ 02 ] sobre</div>
+        <h2 class="sec-h">o cara por trás do <em>código</em>.</h2>
+      </div>
+      <p class="sec-lead">Sou Deusdete Neto. Brasília. Trabalho no Banco do Brasil de dia, no meu canal de noite, e leio nos intervalos. <em>Caderno aberto</em> não é metáfora — eu escrevo à mão antes de codar.</p>
+    </div>
+
+    <div class="about reveal">
+      <div class="about-photo">
+        <img src="assets/photos/neto-writing.jpg" alt="Neto escrevendo no caderno" />
+        <div class="badge"><span class="p"></span>brasília · agora</div>
+      </div>
+      <div class="about-body">
+        <h2>aprender em <em>público</em> é como eu <em>aprendo melhor</em>.</h2>
+        <p>Comecei em marketing digital em <em>2018</em>. Migrei pra dev full-stack em <em>2020</em>. Em <em>2022</em>, o primeiro N8N em produção. Em <em>2024</em>, entrei no time de CRM/automação do Banco do Brasil. E em <em>2026</em>, comecei a documentar tudo no canal.</p>
+        <p>O que aprendi nesse caminho: <em>quase tudo</em> que parece exigir um sistema novo é só fluxo bem desenhado. E o melhor código vem de quem entendeu o problema <em>antes</em> de abrir o editor.</p>
+        <div class="stats">
+          <div class="stat"><div class="n">120+</div><div class="l">Projetos completos</div></div>
+          <div class="stat"><div class="n">12</div><div class="l">Anos codando</div></div>
+          <div class="stat"><div class="n">4</div><div class="l">Anos · BB</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TECH LOGOS -->
+<section class="tech-sec" data-screen-label="04 Stack">
+  <div class="wrap">
+    <div class="tech-eyerow">[ 03 ] stack · ferramentas do dia a dia</div>
+    <h2 class="tech-h">tudo que eu <em>uso</em>, e por que <em>uso</em>.</h2>
+
+    <div class="tech-grid">
+      <div class="tlogo"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 11.3l-10.8-10.8c-.6-.6-1.6-.6-2.3 0L8.2 2.7l2.8 2.8c.7-.2 1.5 0 2 .5s.7 1.3.5 2l2.7 2.7c.7-.2 1.5 0 2 .5.8.8.8 2 0 2.8s-2 .8-2.8 0c-.5-.5-.7-1.3-.4-2L12.4 9.5v6.7c.2.1.4.2.5.4.8.8.8 2 0 2.8s-2 .8-2.8 0-.8-2 0-2.8c.2-.2.4-.3.6-.4V9.3c-.2-.1-.4-.2-.6-.4-.5-.5-.7-1.3-.4-2L7 4.2.5 10.7c-.6.6-.6 1.6 0 2.3l10.8 10.8c.6.6 1.6.6 2.3 0l10.8-10.8c.7-.7.7-1.7.1-2.7z"/></svg><span class="sub">Git</span></div>
+        <div class="tlogo"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 00-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.9 1.2 1.9 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 016 0c2.3-1.5 3.3-1.2 3.3-1.2.7 1.6.2 2.8.1 3.2.7.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.3v3.3c0 .3.1.7.8.6A12 12 0 0012 .3"/></svg><span class="sub">GitHub</span></div>
+        <div class="tlogo" style="color:#F7DF1E"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M0 0h24v24H0V0zm22.034 18.276c-.175-1.095-.888-2.015-3.003-2.873-.736-.345-1.554-.585-1.797-1.14-.091-.33-.105-.51-.046-.705.15-.646.915-.84 1.515-.66.39.12.75.42.976.9 1.034-.676 1.034-.676 1.755-1.125-.27-.42-.404-.601-.586-.78-.63-.705-1.469-1.065-2.834-1.034l-.705.089c-.676.165-1.32.525-1.71 1.005-1.14 1.291-.811 3.541.569 4.471 1.365 1.02 3.361 1.244 3.616 2.205.24 1.17-.87 1.545-1.966 1.41-.811-.18-1.26-.586-1.755-1.336l-1.83 1.051c.21.48.45.689.81 1.109 1.74 1.756 6.09 1.666 6.871-1.004.029-.09.24-.705.074-1.65l.046.067zm-8.983-7.245h-2.248c0 1.938-.009 3.864-.009 5.805 0 1.232.063 2.363-.138 2.711-.33.689-1.18.601-1.566.48-.396-.196-.597-.466-.83-.855-.063-.105-.11-.196-.127-.196l-1.825 1.125c.305.63.75 1.172 1.324 1.517.855.51 2.004.675 3.207.405.783-.226 1.458-.691 1.811-1.411.51-.93.402-2.07.397-3.346.012-2.054 0-4.109 0-6.179l.004-.056z"/></svg><span class="sub">JavaScript</span></div>
+        <div class="tlogo" style="color:#3178C6"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M1.125 0C.502 0 0 .502 0 1.125v21.75C0 23.498.502 24 1.125 24h21.75c.623 0 1.125-.502 1.125-1.125V1.125C24 .502 23.498 0 22.875 0zm17.363 9.75c.612 0 1.154.037 1.627.111a6.38 6.38 0 0 1 1.306.34v2.458a3.95 3.95 0 0 0-.643-.361 5.093 5.093 0 0 0-.717-.26 5.453 5.453 0 0 0-1.426-.2c-.3 0-.573.028-.819.086a2.1 2.1 0 0 0-.623.242c-.17.104-.3.229-.393.374a.888.888 0 0 0-.14.49c0 .196.053.373.156.529.104.156.252.304.443.444s.423.276.696.41c.273.135.582.274.926.416.47.197.892.407 1.266.628.374.222.695.473.963.753.268.279.472.598.614.957.142.359.214.776.214 1.253 0 .657-.125 1.21-.373 1.656a3.033 3.033 0 0 1-1.012 1.085 4.38 4.38 0 0 1-1.487.596c-.566.121-1.164.182-1.795.182a9.749 9.749 0 0 1-1.84-.169 5.51 5.51 0 0 1-1.512-.508v-2.59a5.27 5.27 0 0 0 3.34 1.225c.31 0 .581-.028.812-.084.23-.056.422-.134.575-.235a1.04 1.04 0 0 0 .35-.36c.077-.137.116-.291.116-.46 0-.209-.06-.39-.18-.547-.118-.156-.286-.301-.502-.434a5.16 5.16 0 0 0-.787-.395 38.94 38.94 0 0 0-1.044-.402c-.473-.198-.895-.408-1.265-.628-.37-.221-.687-.471-.95-.749-.262-.278-.464-.594-.605-.948-.142-.354-.213-.766-.213-1.236 0-.616.124-1.137.371-1.563.247-.426.581-.772 1.001-1.038a4.6 4.6 0 0 1 1.45-.583 6.6 6.6 0 0 1 1.84-.196zm-15.113.025h9.563v2.066H9.506v9.66H6.94v-9.66H3.375z"/></svg><span class="sub">TypeScript</span></div>
+        <div class="tlogo" style="color:#F37C20"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.851 18.56s-.917.522.65.704c1.9.218 2.87.187 4.96-.211 0 0 .555.337 1.328.629-4.713 2.019-10.667-.116-6.938-1.122zm-.581-2.65s-1.028.762.541.924c2.032.21 3.636.227 6.408-.305 0 0 .386.392.992.605-5.701 1.668-12.045.132-7.941-1.224zm12.345 4.535s.679.561-.749.991c-2.715.823-11.302 1.072-13.687.033-.857-.373.751-.89 1.257-.998.527-.114.828-.093.828-.093-.954-.671-6.156 1.318-2.643 1.886 9.58 1.553 17.462-.7 13.994-1.819zM9.292 13.21s-4.362 1.036-1.544 1.412c1.189.159 3.561.123 5.77-.062 1.806-.152 3.618-.477 3.618-.477s-.637.272-1.098.587c-4.429 1.165-12.986.623-10.522-.568 2.082-1.006 3.776-.892 3.776-.892zm7.824 4.374c4.503-2.34 2.421-4.589.968-4.285-.355.074-.515.138-.515.138s.132-.207.385-.297c2.875-1.011 5.086 2.981-.928 4.562 0-.001.07-.062.09-.118zM9.741 22.677c4.32.276 10.953-.153 11.11-2.197 0 0-.302.775-3.572 1.391-3.688.694-8.239.613-10.937.168 0 0 .553.457 3.399.638z"/><path d="M14.401 0s2.494 2.494-2.365 6.33c-3.896 3.077-.888 4.832-.001 6.836-2.274-2.053-3.943-3.858-2.824-5.539 1.644-2.469 6.197-3.665 5.19-7.627zM13.121 10.667s2.682-1.473-1.135-2.115c-3.32-.553-4.51 2.7-.94 2.992C13.07 11.658 14.121 11.5 13.121 10.667zm-.97-7.464c1.062 2.451-2.146 4.661-2.146 4.661s2.704-2.328 1.491-5.158C10.366.012 9.482-1.357 16.04-4.348c0 0-7.535 1.882-3.889 7.551z" opacity=".5"/></svg><span class="sub">Java</span></div>
+        <div class="tlogo" style="color:#DD0031"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.93 12.645h4.134L11.996 7.74M11.996.009L.686 3.988l1.725 14.76 9.585 5.243 9.588-5.238L23.308 3.99 11.996.01zm7.058 18.297h-2.636l-1.42-3.501H8.995l-1.42 3.501H4.939l7.057-15.648 7.057 15.648z"/></svg><span class="sub">Angular</span></div>
+        <div class="tlogo" style="color:#13AA52"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.193 9.555c-1.264-5.58-4.252-7.414-4.573-8.115-.28-.394-.53-.954-.735-1.44-.036.495-.055.685-.523 1.184-.723.566-4.438 3.682-4.74 10.02-.282 5.912 4.27 9.435 4.888 9.884l.07.05A73.49 73.49 0 0111.91 24h.481c.114-1.032.284-2.056.51-3.07.417-.296.604-.463.85-.693a11.342 11.342 0 003.639-8.464c.01-.814-.103-1.662-.197-2.218zm-5.336 8.195s0-8.291.275-8.29c.213 0 .49 10.695.49 10.695-.381-.045-.765-1.76-.765-2.405z"/></svg><span class="sub">MongoDB</span></div>
+        <div class="tlogo" style="color:#FF6200"><span style="font-family:var(--ff-display);font-style:italic;font-size:28px;font-weight:500">n8n</span><span class="sub">n8n</span></div>
+
+        <div class="tlogo" style="color:#21759B"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.158 12.786L9.46 20.625a9.022 9.022 0 002.74.426c.962 0 1.885-.155 2.751-.435-.022-.036-.043-.075-.061-.117l-2.732-7.713zm-9.058-.74a9.218 9.218 0 005.067 8.243L3.706 11.18a9.158 9.158 0 00-.606 3.367v-2.5h-.001zm15.078-.453a4.752 4.752 0 00-.745-2.491c-.456-.744-.886-1.373-.886-2.117 0-.83.628-1.602 1.514-1.602.04 0 .078.005.117.007a9.166 9.166 0 00-13.85 1.722c.193.005.374.01.527.01.945 0 2.41-.116 2.41-.116.487-.028.544.687.057.745 0 0-.49.057-1.035.085l3.292 9.793 1.98-5.93-1.41-3.86c-.487-.029-.949-.087-.949-.087-.487-.029-.43-.772.058-.744 0 0 1.491.114 2.379.114.943 0 2.408-.114 2.408-.114.488-.028.545.686.057.744 0 0-.49.057-1.035.085l3.268 9.717 902-3.015c.39-1.255.689-2.155.689-2.932v-.014zm-6.227.13L9.232 20.05a9.18 9.18 0 005.638-.144 1.06 1.06 0 01-.066-.13l-2.853-7.834zM19.94 7.234c.04.286.06.594.06.924 0 .912-.17 1.938-.685 3.222l-2.746 7.94a9.193 9.193 0 003.37-12.085zM12 0C5.376 0 0 5.376 0 12s5.376 12 12 12 12-5.376 12-12S18.624 0 12 0zm0 23.443C5.69 23.443.557 18.31.557 12S5.69.558 12 .558 23.443 5.69 23.443 12 18.31 23.443 12 23.443z"/></svg><span class="sub">WordPress</span></div>
+        <div class="tlogo" style="color:#92003B"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14.42 5.86c.95-.71 2.04-1.05 3.27-1.05 1.7 0 3.04.6 4 1.78 1 1.2 1.5 2.61 1.5 4.27 0 1.46-.37 2.81-1.1 4.05-.71 1.24-1.66 2.25-2.85 3.02-1.18.77-2.48 1.18-3.9 1.24l-3.36 5.21h-3.07l2.55-4.95c-1.66-.43-2.96-1.31-3.91-2.64-.96-1.36-1.43-2.93-1.43-4.7 0-1.39.31-2.66.93-3.81C8.05 7.13 9.05 6.06 10.46 5.5l-1.43-3.41h2.84l1.27 3.27c.06-.04.15-.06.24-.09.95-.34 1.95-.51 3.04-.51zM16.39 13.86c.66-.66.99-1.5.99-2.51 0-.92-.28-1.69-.85-2.31-.57-.62-1.35-.93-2.33-.93-1.04 0-1.91.34-2.61 1.04-.71.71-1.06 1.59-1.06 2.65 0 1.04.32 1.86.95 2.46.64.6 1.44.92 2.42.92 1 0 1.83-.43 2.49-1.32z"/></svg><span class="sub">WooCommerce</span></div>
+        <div class="tlogo" style="color:#1A1A1A"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.5 3.5h7v7h-7zm10 0h7v7h-7zm-10 10h7v7h-7zm10 0h7v7h-7z"/></svg><span class="sub">Supabase</span></div>
+        <div class="tlogo" style="color:#FF6200"><span style="font-family:var(--ff-display);font-style:italic;font-size:26px;font-weight:500">b.</span><span class="sub">Bubble</span></div>
+        <div class="tlogo" style="color:#7952B3"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.04A10 10 0 002 12.04a10 10 0 0010 10 10 10 0 0010-10 10 10 0 00-10-10zm-1 4h2v6h-2zm0 8h2v2h-2z"/></svg><span class="sub">PostgreSQL</span></div>
+        <div class="tlogo"><span style="font-family:var(--ff-mono);font-size:14px;font-weight:500">{ai}</span><span class="sub">Claude · GPT</span></div>
+        <div class="tlogo"><span style="font-family:var(--ff-display);font-style:italic;font-size:24px;font-weight:500">Obs.</span><span class="sub">Obsidian</span></div>
+        <div class="tlogo"><span style="font-family:var(--ff-mono);font-size:14px;font-weight:500">SFMC</span><span class="sub">Salesforce MC</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- NOW (em tempo real) -->
+<section class="now-sec" data-screen-label="05 Em tempo real">
+  <div class="wrap-narrow">
+    <div class="head-row reveal">
+      <div>
+        <div class="sec-num">[ 04 ] em tempo real</div>
+        <h2 class="sec-h">o que tô fazendo <em>agora</em>.</h2>
+      </div>
+      <p class="sec-lead">Não é vitrine — é caderno aberto. Atualizado <em>toda semana</em>. Se algo te interessa, é só me escrever.</p>
+    </div>
+
+    <div class="term reveal">
+      <div class="term-bar">
+        <span class="dots"><span></span><span></span><span></span></span>
+        <span class="lt"><span class="p"></span>now.deneto.dev</span>
+        <span class="clock" id="clock">qua · 14:32 · brt</span>
+      </div>
+      <div class="term-row">
+        <span class="lbl">construindo</span>
+        <span class="v">Agente IA pra <em>fotógrafa</em><span class="sub">case 02 · semana 3 de 5 · em produção</span></span>
+        <span class="meta"><strong>5 dias</strong>pra deploy</span>
+      </div>
+      <div class="term-row">
+        <span class="lbl">lendo</span>
+        <span class="v"><em>The Art of Doing</em> Science and Engineering<span class="sub">Richard Hamming · pg. 142 de 412</span></span>
+        <span class="meta"><strong>34%</strong>completo</span>
+      </div>
+      <div class="term-row">
+        <span class="lbl">ouvindo</span>
+        <span class="v">Sigur Rós — <em>Ágætis byrjun</em><span class="sub">tocando há 2h em loop · spotify</span></span>
+        <span class="meta"><strong>♪</strong>focus mode</span>
+      </div>
+      <div class="term-row">
+        <span class="lbl">estudando</span>
+        <span class="v">RAG <em>avançado</em> + reranking<span class="sub">anthropic cookbook · 4ª iteração</span></span>
+        <span class="meta"><strong>w 19</strong>2026</span>
+      </div>
+      <div class="term-row">
+        <span class="lbl">escrevendo</span>
+        <span class="v">Por que agentes <em>genéricos</em> falham<span class="sub">draft · 1.200 palavras · publica dom</span></span>
+        <span class="meta"><strong>78%</strong>do draft</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJETOS -->
+<section class="proj-sec" id="projetos" data-screen-label="06 Projetos">
+  <div class="wrap">
+    <div class="head-row reveal">
+      <div>
+        <div class="sec-num">[ 05 ] projetos</div>
+        <h2 class="sec-h">veja como eu <em>transformo ideias</em>.</h2>
+      </div>
+      <p class="sec-lead">Cada projeto aqui passou pelas <em>minhas</em> mãos — do discovery ao deploy. Cliente real, problema real, código que rodou em produção.</p>
+    </div>
+
+    <div class="proj-grid reveal">
+      <div class="proj feat">
+        <div class="proj-vis">
+          <span class="proj-tag"><span class="p"></span>em produção</span>
+          <div class="vis-wa"></div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-meta"><span class="o">P.01 · cliente</span><span>2026</span></div>
+          <h3>Agente IA — <em>Estúdio de Tatuagem</em></h3>
+          <p>Atendimento 24/7 no WhatsApp. Qualifica leads, agenda sessões, libera a tatuadora pra fazer arte. Conversão dobrou em 6 semanas.</p>
+          <div class="proj-foot"><span>n8n · postgres · whatsapp api</span><span class="arr">ler estudo →</span></div>
+        </div>
+      </div>
+
+      <div class="proj s">
+        <div class="proj-vis">
+          <span class="proj-tag"><span class="p"></span>em desenvolvimento</span>
+          <div class="vis-flow">
+            <div class="n"><span class="ic">↓</span>Webhook · WhatsApp</div>
+            <div class="ln"></div>
+            <div class="n o"><span class="ic">★</span>RAG + LLM</div>
+            <div class="ln"></div>
+            <div class="n"><span class="ic">→</span>CRM + Calendar</div>
+          </div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-meta"><span class="o">P.02 · case</span><span>2026</span></div>
+          <h3>Case <em>02</em> — Fotografia</h3>
+          <p>Documentado no canal. N8N + RAG + agenda.</p>
+          <div class="proj-foot"><span>youtube · live</span><span class="arr">acompanhar →</span></div>
+        </div>
+      </div>
+
+      <div class="proj s">
+        <div class="proj-vis">
+          <span class="proj-tag"><span class="p"></span>em produção</span>
+          <div class="vis-dash">
+            <div class="sd">
+              <div class="it a">conversas</div>
+              <div class="it">qualific.</div>
+              <div class="it">agenda</div>
+            </div>
+            <div class="mn">
+              <div class="stat"><span>47</span><span>12</span><span>5</span></div>
+              <div class="ch">
+                <svg viewBox="0 0 100 30" preserveAspectRatio="none">
+                  <path d="M0,22 L15,18 L30,20 L45,12 L60,14 L75,6 L90,9 L100,4" fill="none" stroke="#FF6200" stroke-width="1.4"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-meta"><span class="o">P.03 · produto</span><span>2026</span></div>
+          <h3>Painel de <em>conversas</em></h3>
+          <p>Dashboard para acompanhar agentes em produção.</p>
+          <div class="proj-foot"><span>SaaS interno</span><span class="arr">ver projeto →</span></div>
+        </div>
+      </div>
+
+      <div class="proj m">
+        <div class="proj-vis">
+          <span class="proj-tag done"><span class="p"></span>publicado</span>
+          <div class="vis-yt"><span class="txt"><em>@denetodev</em></span><span class="pl">▶</span></div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-meta"><span class="o">P.04 · conteúdo</span><span>ongoing</span></div>
+          <h3>Canal <em>@denetodev</em></h3>
+          <p>Onde documento o processo de construir agentes IA do início ao fim — sem cortes, sem pose.</p>
+          <div class="proj-foot"><span>youtube · 4 episódios</span><span class="arr">inscrever →</span></div>
+        </div>
+      </div>
+
+      <div class="proj m">
+        <div class="proj-vis">
+          <span class="proj-tag done"><span class="p"></span>concluído</span>
+          <div class="vis-blog">
+            <br>2026 · 04 · 22<br>Por que agentes IA genéricos...<br>Arquitetura de fluxo: do form ao CRM<br>O "não precisa"<br>RAG com contexto<br>Hand-off humano
+          </div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-meta"><span class="o">P.05 · escrita</span><span>2024–</span></div>
+          <h3>Blog técnico — <em>deneto.dev</em></h3>
+          <p>Estudos longos, decisões de arquitetura, post-mortems. Escrevo pra pensar melhor.</p>
+          <div class="proj-foot"><span>32 posts · open</span><span class="arr">ler todos →</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ESTANTE -->
+<section class="shelf-sec" id="estante" data-screen-label="07 Estante">
+  <div class="wrap">
+    <div class="head-row reveal">
+      <div>
+        <div class="sec-num">[ 06 ] estante</div>
+        <h2 class="sec-h">o que estou <em>lendo</em>.</h2>
+      </div>
+      <p class="sec-lead">Leio devagar. Releio. Anoto à margem. Os melhores livros que conheci foram <em>recomendação</em> de alguém. Aqui é minha tentativa de retribuir.</p>
+    </div>
+
+    <div class="shelf reveal">
+      <div class="book">
+        <div class="cover c1">The Art of Doing Science</div>
+        <div class="ttl"><em>The Art of Doing</em> Science and Engineering<span class="au">Richard Hamming · 1997</span></div>
+        <div class="note">"Aprenda a aprender. O resto é vocação."</div>
+        <div class="st"><span class="o">●</span> lendo agora</div>
+        <div class="prog"><div class="b" style="width:34%"></div></div>
+      </div>
+      <div class="book">
+        <div class="cover c2">Pensando Rápido e Devagar</div>
+        <div class="ttl">Pensando, <em>rápido e devagar</em><span class="au">Daniel Kahneman · 2011</span></div>
+        <div class="note">Releitura. Toda vez encontro algo novo.</div>
+        <div class="st">próximo</div>
+        <div class="prog"><div class="b" style="width:0%"></div></div>
+      </div>
+      <div class="book">
+        <div class="cover c3">A Philosophy of Software Design</div>
+        <div class="ttl">A Philosophy of <em>Software Design</em><span class="au">John Ousterhout · 2018</span></div>
+        <div class="note">Curtinho. Mudou como eu nomeio funções.</div>
+        <div class="st">terminado · mar/26</div>
+        <div class="prog"><div class="b" style="width:100%"></div></div>
+      </div>
+      <div class="book">
+        <div class="cover c4">Range</div>
+        <div class="ttl"><em>Range</em>: Why Generalists Triumph<span class="au">David Epstein · 2019</span></div>
+        <div class="note">Pra quem se sente espalhado demais.</div>
+        <div class="st">terminado · fev/26</div>
+        <div class="prog"><div class="b" style="width:100%"></div></div>
+      </div>
+      <div class="book">
+        <div class="cover c5">Designing Data-Intensive</div>
+        <div class="ttl">Designing <em>Data-Intensive</em> Applications<span class="au">Martin Kleppmann · 2017</span></div>
+        <div class="note">Leio em pedaços. Volto sempre.</div>
+        <div class="st">consulta · ongoing</div>
+        <div class="prog"><div class="b" style="width:62%"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BLOG -->
+<section class="blog-sec" id="blog" data-screen-label="08 Blog">
+  <div class="wrap">
+    <div class="head-row reveal">
+      <div>
+        <div class="sec-num">[ 07 ] blog</div>
+        <h2 class="sec-h">o que estou <em>escrevendo</em>.</h2>
+      </div>
+      <p class="sec-lead">Escrevo pra <em>pensar melhor</em>. Posts longos sobre arquitetura, decisões técnicas, post-mortems. Sem fluff, sem listas de "10 dicas".</p>
+    </div>
+
+    <div class="blog-grid reveal">
+      <div class="post">
+        <div class="post-vis p1"></div>
+        <div class="post-body">
+          <div class="post-meta"><span class="tag">arquitetura</span><span>22 abr 2026</span></div>
+          <h4>Por que agentes IA <em>genéricos</em> falham em PMEs</h4>
+          <p>A diferença entre um bot que responde e um agente que entende o negócio.</p>
+          <div class="post-foot"><span>8 min · leitura</span><span class="arr">ler →</span></div>
+        </div>
+      </div>
+      <div class="post">
+        <div class="post-vis p2"></div>
+        <div class="post-body">
+          <div class="post-meta"><span class="tag">fluxo</span><span>14 abr 2026</span></div>
+          <h4>Do form ao CRM <em>sem spaghetti</em></h4>
+          <p>Como estruturar fluxos N8N que você consegue ler 6 meses depois.</p>
+          <div class="post-foot"><span>12 min · leitura</span><span class="arr">ler →</span></div>
+        </div>
+      </div>
+      <div class="post">
+        <div class="post-vis p3"></div>
+        <div class="post-body">
+          <div class="post-meta"><span class="tag">processo</span><span>02 abr 2026</span></div>
+          <h4>O <em>"não precisa"</em>: quando a melhor automação é não automatizar</h4>
+          <p>Nem todo problema é problema de automação. Como identificar.</p>
+          <div class="post-foot"><span>6 min · leitura</span><span class="arr">ler →</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTATO -->
+<section class="contact" id="contato" data-screen-label="09 Contato">
+  <div class="wrap">
+    <div class="contact-grid">
+      <div>
+        <div class="contact-eyerow">[ 08 ] vamos conversar</div>
+        <h2>se algo aqui<br>te <em>interessou</em> —<br><em>oi.</em></h2>
+        <p class="contact-sub">Não tenho pacote pronto, nem tabela de preços. Cada projeto é uma conversa. Me conta o que <em>você</em> tá construindo, e a gente vê se faz sentido caminhar junto.</p>
+      </div>
+      <div class="contact-side">
+        <strong>onde me achar</strong>
+        <a href="https://wa.me/5561861709064"><span>WhatsApp</span><span class="arr">+55 61 ↗</span></a>
+        <a href="/cdn-cgi/l/email-protection#e5868a8b9184918aa581808b80918acb868a88cb8797"><span><span class="__cf_email__" data-cfemail="92f1fdfce6f3e6fdd2f6f7fcf7e6fdbcf1fdffbcf0e0">[email&#160;protected]</span></span><span class="arr">↗</span></a>
+        <a href="#"><span>YouTube · @denetodev</span><span class="arr">↗</span></a>
+        <a href="#"><span>Instagram · @denetodev</span><span class="arr">↗</span></a>
+        <a href="#"><span>GitHub · @denetodev</span><span class="arr">↗</span></a>
+        <a href="#"><span>LinkedIn</span><span class="arr">↗</span></a>
+      </div>
+    </div>
+
+    <form class="contact-form" onsubmit="event.preventDefault(); alert('Vou te responder em até 24h ✦')">
+      <input type="email" placeholder="seu@email.com — mande uma mensagem direta" required />
+      <button type="submit">Enviar →</button>
+    </form>
+
+    <div class="footnote">
+      <div>© 2026 Deusdete Neto · Brasília · feito à mão</div>
+      <div>
+        <a href="landing-v4.html">v4 · now ↗</a>
+        &nbsp;·&nbsp;
+        <a href="landing-v3.html">v3 · clean ↗</a>
+        &nbsp;·&nbsp;
+        <a href="landing-v2.html">v2 · terminal ↗</a>
+        &nbsp;·&nbsp;
+        <a href="brandbook.html">brandbook ↗</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // theme toggle (init early to avoid flash)
+  (() => {
+    const stored = localStorage.getItem('deneto-theme');
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (stored === 'dark' || (!stored && prefersDark)) {
+      document.documentElement.classList.add('dark');
+    }
+    const btn = document.querySelector('.theme-toggle');
+    if (btn) btn.addEventListener('click', () => {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('deneto-theme', isDark ? 'dark' : 'light');
+    });
+  })();
+
+  // reveal on scroll
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => e.isIntersecting && e.target.classList.add('in'));
+  }, {threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // live clock
+  function tick(){
+    const d = new Date();
+    const h = String(d.getHours()).padStart(2,'0');
+    const m = String(d.getMinutes()).padStart(2,'0');
+    const days = ['dom','seg','ter','qua','qui','sex','sáb'];
+    const c = document.getElementById('clock');
+    if (c) c.textContent = `${days[d.getDay()]} · ${h}:${m} · brt`;
+  }
+  tick(); setInterval(tick, 30000);
+
+  // nav active state
+  const links = document.querySelectorAll('nav.menu a');
+  const sections = [...links].map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  const navIo = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const id = '#' + e.target.id;
+        links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === id));
+      }
+    });
+  }, {rootMargin:'-40% 0px -55% 0px'});
+  sections.forEach(s => navIo.observe(s));
+</script>
+
+</body>
+</html>
